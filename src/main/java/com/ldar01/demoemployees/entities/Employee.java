@@ -12,11 +12,14 @@ import lombok.*;
 //@Getter
 //@Setter
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Employee {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     @Column(name = "name")
     private String name;
@@ -26,4 +29,8 @@ public class Employee {
 
     @Column(name = "email")
     private String email;
+
+    @ManyToOne
+    @JoinColumn(name = "department_id", referencedColumnName = "id")
+    private Department department;
 }

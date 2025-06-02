@@ -3,6 +3,11 @@ spring:
     name: demoEmployees
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/employees_management
+    url: jdbc:postgresql://localhost:5432/Tarea
     username: postgres
     password: root
+
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
