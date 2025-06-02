@@ -2,6 +2,7 @@ package com.ldar01.demoemployees.utils.mappers;
 
 import com.ldar01.demoemployees.dto.request.employee.EmployeeRequest;
 import com.ldar01.demoemployees.dto.request.employee.EmployeeUpdateRequest;
+import com.ldar01.demoemployees.dto.response.department.DepartmentResponse;
 import com.ldar01.demoemployees.dto.response.employee.EmployeeResponse;
 import com.ldar01.demoemployees.entities.Department;
 import com.ldar01.demoemployees.entities.Employee;
@@ -9,6 +10,16 @@ import com.ldar01.demoemployees.entities.Employee;
 import java.util.List;
 
 public class EmployeeMapper {
+
+    public static Employee toEntity(EmployeeResponse employeeDTO, DepartmentResponse department){
+        return Employee.builder()
+                .id(employeeDTO.getEmployeeId())
+                .name(employeeDTO.getFirstName())
+                .lastName(employeeDTO.getLastName())
+                .email(employeeDTO.getEmail())
+                .department(DepartmentMapper.toEntity(department))
+                .build();
+    }
 
     public static Employee toEntityCreate(EmployeeRequest employeeDTO, Department department) {
         return Employee.builder()

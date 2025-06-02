@@ -1,6 +1,7 @@
 package com.ldar01.demoemployees.exception;
 
 import com.ldar01.demoemployees.dto.response.ApiErrorResponse;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -22,10 +23,15 @@ public class GlobalExceptionHandler {
         return buildErrorResponse(e, HttpStatus.NOT_FOUND, e.getMessage());
     }
 
+    @ExceptionHandler(VacationNotFoundException.class)
+    public ResponseEntity<ApiErrorResponse> handleVacationNotFoundException(VacationNotFoundException e) {
+        return buildErrorResponse(e, HttpStatus.BAD_REQUEST, e.getMessage());
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ApiErrorResponse> handleValueOfEntity(MethodArgumentNotValidException e) {
-        List<String> errors = e.getFieldErrors().stream()
-                .map(error -> error.getField() + ": " + error.getDefaultMessage())
+        List<String> errors = e.getBindingResult().getAllErrors().stream()
+                .map(DefaultMessageSourceResolvable::getDefaultMessage)
                 .toList();
         return buildErrorResponse(e, HttpStatus.BAD_REQUEST, errors);
     }
